@@ -30,4 +30,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'twitter' => [
+        'client_id' => env('TWITTER_CLIENT_ID'),
+        'client_secret' => env('TWITTER_CLIENT_SECRET'),
+        'redirect' => env('CALLBACK_URL')
+    ],
+
+    // 'twitter' => [
+    //     'client_id'     => env('TWITTER_API_KEY'),
+    //     'client_secret' => env('TWITTER_API_SECRET'),
+    //     'redirect'      => env('TWITTER_CALLBACKURL'),
+    // ],
+
 ];

@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/users';
 
     /**
      * Create a new controller instance.
@@ -43,11 +43,4 @@ class LoginController extends Controller
         return $user;
     }
 
-    protected function loggedOut(Request $request)
-    {
-        // セッションIDの再生性
-        $request->session()->regenerate();
-
-        return response()->json();
-    }
 }

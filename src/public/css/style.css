@@ -1,0 +1,71 @@
+.jumbotron-container {
+    position: relative;
+    top: 50%;
+    transform: translateY(+10%);
+}
+
+.home-header {
+  background: url(../img/main.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.jumbotron-extend-bs {
+    position: relative;
+    height: 120vh;
+    min-height: 300px;
+    background: url(../../img/bs.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+
+.site-name {
+    margin-bottom: 40px;
+    font-family: 'Playfair Display', serif;
+}
+
+.top-title{
+    font-weight : bold;
+    color       : #ffffff;
+    text-shadow:  2px  2px 10px #777 ,
+                 -2px  2px 10px #777 ,
+                  2px -2px 10px #777 ,
+                 -2px -2px 10px #777;
+}
+
+.bg-color{
+  background-color: #FFDAB9;
+}
+
+.modal-middle { //モーダルウィンドウの縦表示位置を調整
+ margin: 5% auto;
+}
+
+.modal-img_footer { //表示予定のテキストとボタンを中央揃え
+ padding: .5em;
+ text-align: center;
+}
+
+.no-gutters {
+  margin:0;
+  padding:0;
+}
+
+.no-gutters　> .col,
+.no-gutters　> [class*="col-"] {
+  margin:0;
+  padding:0;
+}
+
+.bookshelf {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}

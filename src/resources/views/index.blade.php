@@ -17,8 +17,13 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
 </head>
-<body>
-    <div id="app"></div>
-</body>
-</html>
+@extends('layouts.app')
+@section('content')
+
+    <div id="app">
+    </div>
+
+@endsection

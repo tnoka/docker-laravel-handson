@@ -69,19 +69,23 @@ const actions = {
         context.commit('error/setCode', response.status, { root: true })
         }
     },
-    // ログアウト
-    async logout(context){
+    // 簡単ログイン
+    async easyLogin(context, data){
         context.commit('setApiStatus', null)
-        const response = await axios.post('/api/logout')
+        const response = await axios.post('/api/login', data)
 
-        if(response.status === OK) {
+        if(response.status === OK){
             context.commit('setApiStatus', true)
-            context.commit('setUser', null)
+            context.commit('setUser', response.data)
             return false
         }
 
         context.commit('setApiStatus', false)
+        if(response.status === UNPROCESSABLE_ENTITY) {
+            context.commit('setLoginErrorMessages', response.data.errors)
+        } else {
         context.commit('error/setCode', response.status, { root: true })
+        }
     },
     // ログインユーザーのチェック
     async currentUser(context){

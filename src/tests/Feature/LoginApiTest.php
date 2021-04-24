@@ -19,7 +19,6 @@ class LoginApiTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
-
     /**
      * @test
      */
@@ -36,7 +35,6 @@ class LoginApiTest extends TestCase
             ->assertJson(['name' => $this->user->name]); //レスポンスが指定したデータを持っているか
 
         $this->assertAuthenticatedAs($this->user); // 指定したユーザーが認証されているか
-
 
     }
 }

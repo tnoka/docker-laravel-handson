@@ -1,0 +1,14 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Model;
+use Faker\Generator as Faker;
+
+$factory->define(App\Comment::class, function (Faker $faker) {
+    return [
+        'text' => substr($faker->text, 0, 500),
+        'user_id' => function() {return factory(App\User::class)->create()->id;},
+        'product_id' => function() {return factory(App\Product::class)->create()->id;},
+    ];
+});

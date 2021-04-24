@@ -1,34 +1,57 @@
 <template>
     <div class="container--small">
-        <h2 class="title">本棚に飾る(新規投稿)</h2>
+        <h2 class="title text-center">新規投稿</h2>
         <div class="panel">
-        <div v-show="loading" class="panel">
-            <Loader>Sending your Book...</Loader>
-        </div>
-        <form v-show="! loading" class="form" @submit.prevent="submit">
-            <label for="title">タイトル</label>
-            <input type="text" class="form__item" id="title" v-model="title">
-            <label for="author">著者</label>
-            <input type="text" class="form__item" id="author" v-model="author">
-            <label for="recommend">おすすめ度</label>
-            <input type="text" class="form__item" id="recommend" v-model="recommend">
-            <label for="text">メモ</label>
-            <input type="text" class="form__item" id="text" v-model="text">
+            <div v-show="loading" class="panel">
+                <Loader>Sending your Book...</Loader>
+            </div>
+            <form v-show="! loading" class="form" @submit.prevent="submit">
+                <div class="errors" v-if="errors">
+                    <ul v-if="errors.title">
+                        <li v-for="msg in errors.title" :key="msg">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="errors.author">
+                        <li v-for="msg in errors.author" :key="msg">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="errors.recommend">
+                        <li v-for="msg in errors.recommend" :key="msg">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="errors.text">
+                        <li v-for="msg in errors.text" :key="msg">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="errors.product_image">
+                        <li v-for="msg in errors.product_image" :key="msg">{{ msg }}</li>
+                    </ul>
+                </div>
+                <label for="title">タイトル</label>
+                <input type="text" class="form__item" id="title" v-model="title">
 
-            <div class="errors" v-if="errors">
-                <ul v-if="errors.product">
-                    <li v-for="msg in errors.product" :key="msg">{{ msg }}</li>
-                </ul>
-            </div>
-            <label for="product_image">本の画像</label>
-            <input type="file" class="form__item" @change="onFileChange">
-            <output class="form__output" v-if="preview">
-                <img :src="preview">
-            </output>
-            <div class="form__button">
-            <button type="submit" class="button button--inverse">register</button>
-            </div>
-        </form>
+                <label for="author">著者</label>
+                <input type="text" class="form__item" id="author" v-model="author">
+
+                <label for="recommend">おすすめ度</label>
+                <select name="recommend" class="form-control mb-3" id="recommend" v-model="recommend">
+                    <option value="-">選択してください</option>
+                    <option value="★★★★★">★★★★★</option>
+                    <option value="★★★★">★★★★</option>
+                    <option value="★★★">★★★</option>
+                    <option value="★★">★★</option>
+                    <option value="★">★</option>
+                </select>
+
+                <label for="text">メモ</label>
+                <textarea type="text" class="form__item" id="text" v-model="text" rows="10"></textarea>
+
+                <label for="product_image">本の画像</label>
+                <input type="file" id="product_image" class="form__item" @change="onFileChange">
+                <output class="form__output" v-if="preview">
+                    <img :src="preview">
+                </output>
+                
+                <div class="form__button text-center my-3">
+                    <button type="submit" class="btn button--inverse btn-lg">投稿する</button>
+                </div>
+            </form>
         </div>
     </div>
 </template>
@@ -46,11 +69,11 @@ export default {
         return {
             loading: false,
             preview: null,
-            product: null,
             title: '',
             author: '',
             recommend: '',
             text: '',
+            product_image: null,
             errors: null,
         }
     },
@@ -77,20 +100,24 @@ export default {
             }
             // ファイルを読み込む
             reader.readAsDataURL(event.target.files[0])
-            this.product = event.target.files[0]
+            this.product_image = event.target.files[0]
         },
         
         // 入力欄の値とプレビュー表示をクリアするメソッド
         reset() {
             this.preview = ''
-            this.product = null
+            this.product_image = null
             this.$el.querySelector('input[type="file"]').value = null //this.$elはコンポーネントそのもののDOM要素
         },
         async submit() {
             this.loading = true
 
             const formData = new FormData()
-            formData.append('product', this.product)
+            formData.append('title', this.title)
+            formData.append('author', this.author)
+            formData.append('recommend', this.recommend)
+            formData.append('text', this.text)
+            formData.append('product_image', this.product_image)
             const response = await axios.post('/api/products', formData)
 
             this.loading = false
@@ -102,7 +129,7 @@ export default {
 
             this.reset()
 
-            if(response.data !== CREATED) {
+            if(response.status !== CREATED) {
                 this.$store.commit('error/setCode', response.status)
                 return false
             }
@@ -113,15 +140,8 @@ export default {
                 timeout: 6000
             })
 
-            this.router.push('/products/${response.data.id}')
+            this.$router.push('/')
             },
-        clearError() {
-            this.$store.commit('auth/setLoginErrorMessages', null)
-            this.$store.commit('auth/setRegisterErrorMessages', null)
-        }
     },
-    created() {
-        this.clearError()
-    }
 }
 </script>
