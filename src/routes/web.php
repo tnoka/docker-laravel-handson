@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-// TwitterAPI ソーシャルログイン機能
+// TwitterAPI ソーシャルログイン機能ass
 Route::get('auth/twitter', 'Auth\SocialAuthController@redirectToProvider');
 Route::get('auth/twitter/callback', 'Auth\SocialAuthController@handleProviderCallback');
 Route::get('auth/twitter/logout', 'Auth\SocialAuthController@logout');
